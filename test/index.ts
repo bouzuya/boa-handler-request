@@ -1,5 +1,5 @@
 import test from 'ava';
-import { O } from 'b-o-a';
+import { O } from 'boa-core';
 import { init } from '../src/';
 import * as sinon from 'sinon';
 

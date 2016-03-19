@@ -1,6 +1,6 @@
 // RequestAction -> HTTP request -> ResponseAction
 
-import { A, O, Handler } from 'b-o-a';
+import { A, O, Handler } from 'boa-core';
 
 export interface Request {
   name: string;
