@@ -1,5 +1,5 @@
 {
-  "name": "boajs-handler-request",
+  "name": "boa-handler-request",
   "description": "A b-o-a handler for request",
   "version": "0.1.0",
   "author": {
@@ -16,7 +16,7 @@
     ]
   },
   "bugs": {
-    "url": "https://github.com/bouzuya/boajs-handler-request/issues"
+    "url": "https://github.com/bouzuya/boa-handler-request/issues"
   },
   "dependencies": {
     "b-o-a": "0.4.0"
@@ -33,13 +33,13 @@
   "files": [
     "lib"
   ],
-  "homepage": "https://github.com/bouzuya/boajs-handler-request#readme",
+  "homepage": "https://github.com/bouzuya/boa-handler-request#readme",
   "keywords": [],
   "license": "MIT",
   "main": "lib/index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/bouzuya/boajs-handler-request"
+    "url": "https://github.com/bouzuya/boa-handler-request"
   },
   "scripts": {
     "build": "tsc && npm run cp",
