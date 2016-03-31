@@ -1,5 +1,5 @@
 import test from 'ava';
-import { O } from 'boa-core';
+import { A, O } from 'boa-core';
 import { init } from '../src/';
 import * as sinon from 'sinon';
 
@@ -22,13 +22,13 @@ test.cb(t => {
   t.plan(5);
   const request: sinon.SinonStub = t.context.request;
   const requests = t.context.requests;
-  const action$ = O.of({
+  const action$ = O.timer(1).map(() => ({
     type: 'request',
     data: {
       name: 'request1',
       params: { bar: 456 }
     }
-  });
+  }));
   const options = {
     re: response => {
       t.ok(request.callCount === 1);
@@ -39,7 +39,5 @@ test.cb(t => {
       t.end();
     }
   };
-  init({ requests }).handler(action$, options).subscribe(() => {
-    // do nothing
-  });
+  init({ requests }).handler(action$, options).subscribe(() => void 0);
 });
