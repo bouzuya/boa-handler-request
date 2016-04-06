@@ -29,15 +29,15 @@ const init = (options: RequestOptions): RequestResponse => {
     o[i.name] = i;
     return Object.assign({}, a, o);
   }, <RequestMap>{});
-  return {
-    handler: (action$: O<A<any>>, options: any) => {
-      const { re }: { re: (action: A<any>) => void; } = options;
-      return action$.map(action => {
-        if (action.type !== requestType) return action;
-        const { name, params }: {
-          name: string;
-          params: any;
-        } = action.data;
+  const handler = (action$: O<A<any>>, options: any) => {
+    const { re }: { re: (action: A<any>) => void; } = options;
+    return action$
+      .filter(action => action.type === requestType)
+      .map(({ data }) => data)
+      .do(({ name, params }: {
+        name: string;
+        params: any;
+      }) => {
         const request = requestMap[name];
         request.request(params).then(response => {
           const responseAction = {
@@ -47,14 +47,13 @@ const init = (options: RequestOptions): RequestResponse => {
               response
             }
           };
-          return re(responseAction);
+          re(responseAction);
         });
-        return; // return undefined
       })
-        .filter(a => !!a)
-        .share();
-    }
+      .filter(() => false)
+      .share();
   };
+  return { handler };
 };
 
 export { init };
