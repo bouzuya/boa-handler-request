@@ -31,11 +31,11 @@ test.cb(t => {
   }));
   const options = {
     re: response => {
-      t.ok(request.callCount === 1);
-      t.same(request.getCall(0).args, <any>[{ bar: 456 }]);
-      t.ok(response.type === 'response');
-      t.ok(response.data.request);
-      t.ok(response.data.response);
+      t.truthy(request.callCount === 1);
+      t.deepEqual(request.getCall(0).args, <any>[{ bar: 456 }]);
+      t.truthy(response.type === 'response');
+      t.truthy(response.data.request);
+      t.truthy(response.data.response);
       t.end();
     }
   };
