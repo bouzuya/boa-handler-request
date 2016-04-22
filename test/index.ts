@@ -2,6 +2,8 @@ import test from 'ava';
 import { A, O } from 'boa-core';
 import { init } from '../src/';
 import * as sinon from 'sinon';
+import 'rxjs/add/observable/timer';
+import 'rxjs/add/operator/map';
 
 test.beforeEach(t => {
   const sandbox = sinon.sandbox.create();
