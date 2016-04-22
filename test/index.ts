@@ -30,7 +30,7 @@ test.cb(t => {
     }
   }));
   const options = {
-    re: response => {
+    re: (response: A<any>) => {
       t.truthy(request.callCount === 1);
       t.deepEqual(request.getCall(0).args, <any>[{ bar: 456 }]);
       t.truthy(response.type === 'response');
