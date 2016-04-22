@@ -1,6 +1,9 @@
 // RequestAction -> HTTP request -> ResponseAction
 
 import { A, O, Handler } from 'boa-core';
+import { _do } from 'rxjs/operator/do';
+import { filter } from 'rxjs/operator/filter';
+import { share } from 'rxjs/operator/share';
 
 export interface Request {
   name: string;
@@ -31,27 +34,35 @@ const init = (options: RequestOptions): RequestResponse => {
   }, <RequestMap>{});
   const handler = (action$: O<A<any>>, options: any) => {
     const { re }: { re: (action: A<any>) => void; } = options;
-    return action$
-      .filter(action => action.type === requestType)
-      .map(({ data }) => data)
-      .do(({ name, params }: {
-        name: string;
-        params: any;
-      }) => {
-        const request = requestMap[name];
-        request.request(params).then(response => {
-          const responseAction = {
-            type: responseType,
+    return share.call(
+      filter.call(
+        _do.call(
+          filter.call(
+            action$,
+            (action: A<any>): boolean => action.type === requestType
+          ),
+          ({ data: { name, params } }: {
             data: {
-              request,
-              response
+              name: string;
+              params: any;
             }
-          };
-          re(responseAction);
-        });
-      })
-      .filter(() => false)
-      .share();
+          }) => {
+            const request = requestMap[name];
+            request.request(params).then(response => {
+              const responseAction = {
+                type: responseType,
+                data: {
+                  request,
+                  response
+                }
+              };
+              re(responseAction);
+            });
+          }
+        ),
+        () => false
+      )
+    );
   };
   return { handler };
 };
